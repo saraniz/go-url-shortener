@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"os"
+	"strings"
 
 	// Import our database connection
 	"backend/config"
@@ -129,8 +130,9 @@ func CreateShortURL(c *gin.Context) {
 
 
 	// Determine the base URL dynamically or from environment variables
+	// If BASE_URL points to localhost but the request is coming from production (non-localhost host), bypass it.
 	baseURL := os.Getenv("BASE_URL")
-	if baseURL == "" {
+	if baseURL == "" || (strings.Contains(baseURL, "localhost") && c.Request.Host != "localhost:8080" && c.Request.Host != "127.0.0.1:8080") {
 		scheme := "http"
 		if c.Request.TLS != nil || c.Request.Header.Get("X-Forwarded-Proto") == "https" {
 			scheme = "https"
