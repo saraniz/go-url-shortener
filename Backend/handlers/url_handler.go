@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 
 	// Import our database connection
 	"backend/config"
@@ -127,21 +128,23 @@ func CreateShortURL(c *gin.Context) {
 
 
 
+	// Determine the base URL dynamically or from environment variables
+	baseURL := os.Getenv("BASE_URL")
+	if baseURL == "" {
+		scheme := "http"
+		if c.Request.TLS != nil || c.Request.Header.Get("X-Forwarded-Proto") == "https" {
+			scheme = "https"
+		}
+		baseURL = scheme + "://" + c.Request.Host
+	}
+
 	// Send response back to frontend
-	//
-	// Response:
-	//
-	// {
-	//    "short_url":
-	//    "http://localhost:8080/Ab12Cd"
-	// }
 	c.JSON(
 		http.StatusOK,
 
 		gin.H{
 
-			"short_url":
-			"http://localhost:8080/" + shortCode,
+			"short_url": baseURL + "/" + shortCode,
 		},
 	)
 
