@@ -9,7 +9,7 @@ const api = axios.create({
     // During development:
     // Go backend running locally
     //
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_API_URL || "https://shrinklt-url-shortener.onrender.com",
 
 });
 

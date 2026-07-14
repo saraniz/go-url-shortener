@@ -15,6 +15,13 @@ import (
 // with their handler functions
 func RegisterRoutes(router *gin.Engine) {
 
+	// Root Route (API Status & Welcome)
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status":  "healthy",
+			"message": "ShrinkIt URL Shortener API is running",
+		})
+	})
 
 	// =====================================
 	// Create Short URL

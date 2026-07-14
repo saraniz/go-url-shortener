@@ -58,7 +58,7 @@ function Stats() {
   const handleCopyLink = () => {
     if (!stats) return;
     const cleanCode = extractCode(code);
-    const fullUrl = `${window.location.protocol}//${window.location.hostname}:8080/${cleanCode}`;
+    const fullUrl = `${api.defaults.baseURL}/${cleanCode}`;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -83,7 +83,7 @@ function Stats() {
               id="code-input"
               className="form-input"
               type="text"
-              placeholder="e.g. Ab12Cd or http://localhost:8080/Ab12Cd"
+              placeholder="e.g. Ab12Cd or https://shrinklt-url-shortener.onrender.com/Ab12Cd"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               disabled={loading}
